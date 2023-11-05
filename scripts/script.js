@@ -145,6 +145,17 @@ function startQuiz() {
   startTimer();
 }
 
+function startTimer() {
+  timerInterval = setInterval(function () {
+    time--;
+    timerElement.textContent = time;
+    if (time <= 0 || currentQuestionIndex === questions.length) {
+      clearInterval(timerInterval);
+      endQuiz();
+    }
+  }, 1000);
+}
+
 function showNextQuestion() {
   if (currentQuestionIndex < questions.length) {
     const currentQuestion = questions[currentQuestionIndex];
