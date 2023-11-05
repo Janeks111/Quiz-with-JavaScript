@@ -176,3 +176,13 @@ function showNextQuestion() {
     endQuiz();
   }
 }
+
+function checkAnswer(selectedAnswer, correctAnswer) {
+  if (selectedAnswer === correctAnswer) {
+    score++;
+    feedbackElement.textContent = "Correct!";
+  } else {
+    time -= 10;
+    feedbackElement.textContent = "Wrong! -10 seconds";
+  }
+}
