@@ -162,7 +162,6 @@ function showNextQuestion() {
       choicesContainer.appendChild(choiceButton);
     }
   } else {
-    time -= 10;
-    feedbackElement.textContent = "Wrong! You lost 10 seconds";
+    endQuiz();
   }
 }
