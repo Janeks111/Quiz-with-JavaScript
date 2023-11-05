@@ -186,3 +186,25 @@ function checkAnswer(selectedAnswer, correctAnswer) {
     feedbackElement.textContent = "Wrong! -10 seconds";
   }
 }
+function endQuiz() {
+  questionTitle.textContent = "Quiz Over!";
+  choicesContainer.innerHTML = `Your Score: ${score}`;
+  feedbackElement.textContent = "";
+  clearInterval(timerInterval);
+
+  const initialsInput = document.createElement("input");
+  initialsInput.setAttribute("type", "text");
+  initialsInput.setAttribute("placeholder", "Enter your initials");
+  initialsInput.setAttribute("maxlength", "3");
+
+  const submitButton = document.createElement("button");
+  submitButton.textContent = "Submit";
+  submitButton.addEventListener("click", function () {
+    const userInitials = initialsInput.value;
+    saveHighScore(userInitials, score);
+    window.location.href = "highscores.html";
+  });
+
+  choicesContainer.appendChild(initialsInput);
+  choicesContainer.appendChild(submitButton);
+}
