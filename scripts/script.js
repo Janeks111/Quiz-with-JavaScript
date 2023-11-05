@@ -179,7 +179,7 @@ function showNextQuestion() {
 
 function checkAnswer(selectedAnswer, correctAnswer) {
   if (selectedAnswer === correctAnswer) {
-    score++;
+    score += 10;
     feedbackElement.textContent = "Correct!";
   } else {
     time -= 10;
@@ -207,4 +207,12 @@ function endQuiz() {
 
   choicesContainer.appendChild(initialsInput);
   choicesContainer.appendChild(submitButton);
+}
+
+function saveHighScore(initials, score) {
+  const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+  highScores.push({ initials, score });
+
+  localStorage.setItem("highScores", JSON.stringify(highScores));
 }
