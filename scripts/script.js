@@ -1,3 +1,4 @@
+// An array of quiz questions
 const questions = [
   {
     question:
@@ -124,6 +125,7 @@ const questions = [
   },
 ];
 
+// Get references to various HTML elements
 const startButton = document.getElementById("start");
 const questionsContainer = document.getElementById("questions");
 const questionTitle = document.getElementById("question-title");
@@ -131,24 +133,31 @@ const choicesContainer = document.getElementById("choices");
 const timerElement = document.getElementById("time");
 const feedbackElement = document.getElementById("feedback");
 
+// Initialize quiz variables
 let currentQuestionIndex = 0;
 let score = 0;
 let time = 60;
 let timerInterval;
 
+// Add a click event listener to the start button
 startButton.addEventListener("click", startQuiz);
 
+// Function to start the quiz
 function startQuiz() {
+  // Hide the start button and show the questions container
   startButton.style.display = "none";
   questionsContainer.style.display = "block";
   showNextQuestion();
   startTimer();
 }
 
+// Function to start the quiz timer
 function startTimer() {
+  // Start a timer that updates the time element every second
   timerInterval = setInterval(function () {
     time--;
     timerElement.textContent = time;
+    // Check if time has run out or all questions are answered
     if (time <= 0 || currentQuestionIndex === questions.length) {
       clearInterval(timerInterval);
       endQuiz();
@@ -156,16 +165,20 @@ function startTimer() {
   }, 1000);
 }
 
+// Function to display the next question
 function showNextQuestion() {
   if (currentQuestionIndex < questions.length) {
+    // Display the current question and its choices
     const currentQuestion = questions[currentQuestionIndex];
     questionTitle.textContent = currentQuestion.question;
     choicesContainer.innerHTML = "";
 
     for (const choice of currentQuestion.choices) {
+      // Create buttons for each choice and add click event listeners
       const choiceButton = document.createElement("button");
       choiceButton.textContent = choice;
       choiceButton.addEventListener("click", function () {
+        // Check the selected answer and move to the next question
         checkAnswer(choice, currentQuestion.correctAnswer);
         currentQuestionIndex++;
         showNextQuestion();
@@ -173,20 +186,27 @@ function showNextQuestion() {
       choicesContainer.appendChild(choiceButton);
     }
   } else {
+    // End the quiz if all questions are answered
     endQuiz();
   }
 }
 
+// Function to check the selected answer
 function checkAnswer(selectedAnswer, correctAnswer) {
   if (selectedAnswer === correctAnswer) {
+    // Increase the score if the selected answer is correct
     score += 10;
     feedbackElement.textContent = "Correct!";
   } else {
+    // Decrease time and provide feedback if the selected answer is wrong
     time -= 10;
     feedbackElement.textContent = "Wrong! -10 seconds";
   }
 }
+
+// Function to end the quiz
 function endQuiz() {
+  // Display the final score and provide an input field for initials
   questionTitle.textContent = "Quiz Over!";
   choicesContainer.innerHTML = `Your Score: ${score}`;
   feedbackElement.textContent = "";
@@ -200,6 +220,7 @@ function endQuiz() {
   const submitButton = document.createElement("button");
   submitButton.textContent = "Submit";
   submitButton.addEventListener("click", function () {
+    // Save the high score and redirect to a highscores page
     const userInitials = initialsInput.value;
     saveHighScore(userInitials, score);
     window.location.href = "highscores.html";
@@ -209,6 +230,7 @@ function endQuiz() {
   choicesContainer.appendChild(submitButton);
 }
 
+// Function to save the high score in local storage
 function saveHighScore(initials, score) {
   const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 
