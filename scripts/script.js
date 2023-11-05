@@ -123,3 +123,46 @@ const questions = [
       "B) 'map' returns a new array with the results of a provided function on every element, while 'forEach' does not return a new array.",
   },
 ];
+
+const startButton = document.getElementById("start");
+const questionsContainer = document.getElementById("questions");
+const questionTitle = document.getElementById("question-title");
+const choicesContainer = document.getElementById("choices");
+const timerElement = document.getElementById("time");
+const feedbackElement = document.getElementById("feedback");
+
+let currentQuestionIndex = 0;
+let score = 0;
+let time = 60;
+let timerInterval;
+
+startButton.addEventListener("click", startQuiz);
+
+function startQuiz() {
+  startButton.style.display = "none";
+  questionsContainer.style.display = "block";
+  showNextQuestion();
+  startTimer();
+}
+
+function showNextQuestion() {
+  if (currentQuestionIndex < questions.length) {
+    const currentQuestion = questions[currentQuestionIndex];
+    questionTitle.textContent = currentQuestion.question;
+    choicesContainer.innerHTML = "";
+
+    for (const choice of currentQuestion.choices) {
+      const choiceButton = document.createElement("button");
+      choiceButton.textContent = choice;
+      choiceButton.addEventListener("click", function () {
+        checkAnswer(choice, currentQuestion.correctAnswer);
+        currentQuestionIndex++;
+        showNextQuestion();
+      });
+      choicesContainer.appendChild(choiceButton);
+    }
+  } else {
+    time -= 10;
+    feedbackElement.textContent = "Wrong! You lost 10 seconds";
+  }
+}
